@@ -5,9 +5,7 @@ import { STREAM_NFT_ADDRESS } from "../../constants";
 import useSuperstreamContract from "../../hooks/useSuperstreamContract";
 import { currentUserState } from "../../recoil/states";
 import Header from "./Header";
-
 import Sidebar from "./Sidebar";
-
 
 const Layout = ({ children }: Props) => {
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);

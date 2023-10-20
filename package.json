@@ -13,6 +13,7 @@
     "@heroicons/react": "^1.0.6",
     "@mysten/sui.js": "^0.44.0",
     "@mysten/zklogin": "^0.3.2",
+    "@suiet/wallet-kit": "^0.2.20",
     "@superfluid-finance/sdk-core": "^0.3.2",
     "@thirdweb-dev/react": "^2.0.1",
     "@thirdweb-dev/sdk": "^2.0.13",
