@@ -37,18 +37,18 @@ export const getStaticProps = async () => {
   };
 };
 
-const upload= (props: Props) => {
+const upload = (props: Props) => {
   const currentAccount = useAddress();
   const [minting, setMinting] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('')
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<Category>(categories[0]);
-  const [thumbnail, setThumbnail] = useState<string>('');
-  const [video, setVideo] = useState<string>('');
+  const [thumbnail, setThumbnail] = useState<string>("");
+  const [video, setVideo] = useState<string>("");
   const thumbnailRef = useRef<HTMLInputElement>();
   const videoRef = useRef<HTMLInputElement>();
   const [error, setError] = useState<string[]>([]);
-  const [buttonState,setButtonState] = useState<string>("Publish Video")
+  const [buttonState, setButtonState] = useState<string>("Publish Video");
   const currentUser = useRecoilValue(currentUserState);
   const [tags, setTags] = useState<string[]>([]);
   const { storeFile } = useWeb3Storage();
@@ -58,71 +58,71 @@ const upload= (props: Props) => {
 
   const handleSubmit = async () => {
     setMinting(true);
-   
+
     if (!title && !description) {
       setError([...error, "Please fill all fields."]);
-      toast.error("Please fill all the fields.")
+      toast.error("Please fill all the fields.");
     }
     if (!thumbnail) {
       setError([...error, "Please select a thumbnail for your video."]);
-      toast.error("Please select a thumbnail for your video.")
+      toast.error("Please select a thumbnail for your video.");
     }
     if (!video) {
       setError([...error, "Please select a video."]);
-      toast.error("Please select a video.")
+      toast.error("Please select a video.");
     }
     if (!currentAccount) {
       setError([...error, "Please connect your wallet first"]);
-      toast.error("Please connect your wallet first .")
+      toast.error("Please connect your wallet first .");
     }
     if (title && description && currentAccount && thumbnail) {
       toast("Minting stream Nft");
       const tokenId = await mintStream(title, description);
       // await superstream.addStream(tokenId,'',isSubscribersOnly).then(()=>{
       // });
-      router.push('/');
+      router.push("/");
       toast.success("Stream NFT Minted successfully");
-
     }
     setMinting(false);
   };
 
-  const mintStream = async (
-    name: string,
-    description: string
-  ) => {
+  const mintStream = async (name: string, description: string) => {
     try {
-        setButtonState("Uploading Video...")
-        toast("Uploading video to ipfs");
-        const videoCid = await storeFile(videoRef.current.files[0],props.web3storageToken);
-        setButtonState("Uploading Thumbnail...")
-        toast("Uploading thumbnail to ipfs");
-        const thumbnail = await storeFile(
-          thumbnailRef.current.files[0],
-          props.web3storageToken
-        );
-        const metadata = {
-          name,
-          description,
-          image: "ipfs://" + thumbnail,
-          animation_url:"ipfs://" + videoCid ,
-          created_at: Math.floor(new Date().getTime() / 1000).toString(),
-          creator: currentUser.profile.username,
-          properties: {
-            category: category.name,
-            tags: tags,
-          },
-        };
-        console.log(metadata);
-        setButtonState("Minting Video NFT...")
-        const response = await axios.post("/api/mint/stream", {
-          address: currentAccount,
-          metadata: metadata,
-        });
-        console.log(response.data);
-        setButtonState("Publishing Video");
-        // return ethers.BigNumber.from(response.data.tokenId).toNumber();
-      
+      setButtonState("Uploading Video...");
+      toast("Uploading video to ipfs");
+      const videoCid = await storeFile(
+        videoRef.current.files[0],
+        props.web3storageToken
+      );
+      setButtonState("Uploading Thumbnail...");
+      toast("Uploading thumbnail to ipfs");
+      const thumbnail = await storeFile(
+        thumbnailRef.current.files[0],
+        props.web3storageToken
+      );
+      const metadata = {
+        name,
+        description,
+        image: "ipfs://" + thumbnail,
+        animation_url: "ipfs://" + videoCid,
+        created_at: Math.floor(new Date().getTime() / 1000).toString(),
+        creator: currentUser.profile.username,
+        properties: {
+          category: category.name,
+          tags: tags,
+        },
+      };
+
+      alert(metadata);
+      console.log(metadata);
+      setButtonState("Minting Video NFT...");
+      const response = await axios.post("/api/mint/stream", {
+        address: currentAccount,
+        metadata: metadata,
+      });
+      console.log(response.data);
+      setButtonState("Publishing Video");
+      // return ethers.BigNumber.from(response.data.tokenId).toNumber();
     } catch (err) {
       console.error(err);
     }
@@ -132,7 +132,7 @@ const upload= (props: Props) => {
     const file = videoRef.current.files[0];
     console.log(file);
 
-    if(file.type != 'video/mp4'){
+    if (file.type != "video/mp4") {
       toast.error("Please upload a mp4 video");
       return;
     }
@@ -182,9 +182,7 @@ const upload= (props: Props) => {
       <h1 className="text-2xl font-display border-b border-gray-600 pb-2 mb-4">
         Upload new video
       </h1>
-      <div
-        className=" flex flex-col-reverse lg:flex-row gap-8  "
-      >
+      <div className=" flex flex-col-reverse lg:flex-row gap-8  ">
         <div className="w-1/2 flex flex-col gap-4">
           <div className={styles.inputContainer}>
             <label htmlFor="title">Enter title</label>
@@ -194,7 +192,7 @@ const upload= (props: Props) => {
               type="text"
               placeholder="Enter Title "
               value={title}
-              onChange={e=>setTitle(e.target.value)}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className={styles.inputContainer}>
@@ -204,7 +202,7 @@ const upload= (props: Props) => {
               name="description"
               placeholder="Enter desciption"
               value={description}
-              onChange={e=>setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <div className={styles.inputContainer}>
@@ -228,8 +226,10 @@ const upload= (props: Props) => {
             disabled={minting}
             className="bg-violet-600 whitespace-nowrap disabled:text-slate-200  disabled:bg-violet-7000 disabled:animate-pulse r:bg-violet-500 max-w-fit rounded-xl py-2 px-6"
           >
-          {minting && <Spinner className="w-5 fill-slate-100 mr-1 animate-spin text-violet-900" />}
-          {buttonState}
+            {minting && (
+              <Spinner className="w-5 fill-slate-100 mr-1 animate-spin text-violet-900" />
+            )}
+            {buttonState}
           </button>
         </div>
         <div className="flex flex-col ">
@@ -250,7 +250,7 @@ const upload= (props: Props) => {
                 <VideoCameraIcon className="h-4 w-4" /> Click to upload video
               </button>
             )}
-            {video && <video src={video} controls  className="h-full w-full " />}
+            {video && <video src={video} controls className="h-full w-full " />}
             {video && (
               <button
                 onClick={() => setVideo(null)}
@@ -307,4 +307,3 @@ const upload= (props: Props) => {
 };
 
 export default upload;
-  

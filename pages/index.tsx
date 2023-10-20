@@ -2,8 +2,9 @@ import { ChipIcon, FilmIcon, MusicNoteIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import VideoCard from "../components/VideoCard";
-import {useNFTCollection} from '@thirdweb-dev/react'
+import { useNFTCollection } from "@thirdweb-dev/react";
 import { STREAM_NFT_ADDRESS } from "../constants";
+import zkLogin from "../helpers/zkLogin";
 import video from "./video";
 import Loading from "../components/Loading";
 import Spinner from "../components/Spinner";
@@ -37,35 +38,48 @@ const GameIcon = (props) => (
 const Home = () => {
   const streamNft = useNFTCollection(STREAM_NFT_ADDRESS);
   const [videos, setVideos] = useState<any>([]);
-  const [loading,setLoading] = useState<boolean>();
-  
+  const [loading, setLoading] = useState<boolean>();
+
   const getAllVideos = async () => {
     setLoading(true);
-    const res = await streamNft.getAll();
-    res.forEach((item) => {
-      setVideos((videos) => [
-        ...videos,
-        {
-          title: item?.metadata?.name,
-          description: item?.metadata?.description,
-          id: item?.metadata?.id,
-          creator: item?.metadata?.creator,
-          owner: item?.owner,
-          createdAt: item?.metadata?.created_at,
-          animationUrl: item?.metadata?.animation_url,
-          thumbnail: item?.metadata?.image,
-          duration: item?.metadata?.duration,
-          category: item?.metadata?.properties?.category,
-          tags: item?.metadata?.properties?.tags,
-        },
-      ]);
-    });
-    setLoading(false)
+    try {
+      const res = await streamNft.getAll();
+      console.log("harsh", res);
+      res.forEach((item) => {
+        setVideos((videos) => [
+          ...videos,
+          {
+            title: item?.metadata?.name,
+            description: item?.metadata?.description,
+            id: item?.metadata?.id,
+            creator: item?.metadata?.creator,
+            owner: item?.owner,
+            createdAt: item?.metadata?.created_at,
+            animationUrl: item?.metadata?.animation_url,
+            thumbnail: item?.metadata?.image,
+            duration: item?.metadata?.duration,
+            category: item?.metadata?.properties?.category,
+            tags: item?.metadata?.properties?.tags,
+          },
+        ]);
+      });
+      setLoading(false);
+    } catch (e) {
+      console.log("Harsh", e);
+    }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getAllVideos();
-},[])
+  }, []);
+
+  useEffect(() => {
+    const asyncFunc = async () => {
+      // Call zkLogin here or perform other asynchronous tasks if needed
+      await zkLogin();
+    };
+    asyncFunc();
+  }, []);
   return (
     <div className="">
       <div className=" flex  p-8  ease-out duration-500 items-center w-full bg-gradient-to-br rounded-2xl from-violet-800 via-purple-600  to-fuchsia-400">
@@ -118,9 +132,8 @@ const Home = () => {
         Trending Videos{" "}
       </h1>
       <div className="gap-4 grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 ">
-        {!loading && videos?.map((item) => (
-          <VideoCard key={item.id} data={item} />
-        ))}
+        {!loading &&
+          videos?.map((item) => <VideoCard key={item.id} data={item} />)}
         {loading && "Loading Videos...."}
       </div>
     </div>
