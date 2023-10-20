@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply min-h-screen w-full bg-gray-900 text-slate-100 font-body;
+  }
+  button {
+    @apply rounded-lg active:scale-95  text-white font-display font-medium px-3 py-1 duration-200 ease-out flex items-center gap-1;
+  }
+  label {
+    @apply text-gray-200 mb-1;
+  }
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    @apply px-3 py-2 rounded-xl ring-1    ring-opacity-75  ring-slate-500 bg-opacity-50 bg-slate-800 focus-visible:bg-gray-900  hover:ring-gray-500 focus:ring-violet-500 hover:shadow-md focus-visible:shadow-xl focus-visible:outline-none transition duration-300 ease-out active:scale-[98%];
+  }
+  #sub-fee-input::-webkit-outer-spin-button,
+  #sub-fee-input::-webkit-inner-spin-button {
+    display: none;
+  }
+  #sub-fee-input{
+    @apply pl-8;
+  }
+
+}
+
