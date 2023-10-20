@@ -1,0 +1,161 @@
+{
+    "contractName": "Superstream",
+    "abi": [],
+    "metadata": "{\"compiler\":{\"version\":\"0.8.12+commit.f00d7308\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"c:/Users/Amaan/Documents/GitHub/ethernals-project/superstream-ethernals/contracts/Superstream.sol\":\"Superstream\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"c:/Users/Amaan/Documents/GitHub/ethernals-project/superstream-ethernals/contracts/Superstream.sol\":{\"keccak256\":\"0x8deb934b62573557186b56178848dd03ba2c1bcf54bb84608da440d590aee10a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8b935b0fdd3269c2be330809430280029a1975505482ef9427d6f577a5d36551\",\"dweb:/ipfs/QmYMxK4jE31AezdK9HhZJ9QwF1o9WCsqgVpFjn5P2hddmX\"]}},\"version\":1}",
+    "bytecode": "6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212205bf0676ebd2a480fcea641458cb0de9a06257c178d7b2b2c90fa9fd17b2c69f964736f6c634300080c0033",
+    "deployedBytecode": "6080604052600080fdfea26469706673582212205bf0676ebd2a480fcea641458cb0de9a06257c178d7b2b2c90fa9fd17b2c69f964736f6c634300080c0033",
+    "sourceMap": "59:126:0:-:0;;;;;;;;;;;;;;;;;;;",
+    "deployedSourceMap": "59:126:0:-:0;;;;;",
+    "sourcePath": "c:/Users/Amaan/Documents/GitHub/ethernals-project/superstream-ethernals/contracts/Superstream.sol",
+    "compiler": {
+        "name": "solc",
+        "version": "0.8.12+commit.f00d7308"
+    },
+    "ast": {
+        "absolutePath": "c:/Users/Amaan/Documents/GitHub/ethernals-project/superstream-ethernals/contracts/Superstream.sol",
+        "exportedSymbols": {
+            "Superstream": [
+                9
+            ]
+        },
+        "id": 10,
+        "license": "MIT",
+        "nodeType": "SourceUnit",
+        "nodes": [
+            {
+                "id": 1,
+                "literals": [
+                    "solidity",
+                    "^",
+                    "0.8",
+                    ".0"
+                ],
+                "nodeType": "PragmaDirective",
+                "src": "32:23:0"
+            },
+            {
+                "abstract": false,
+                "baseContracts": [],
+                "canonicalName": "Superstream",
+                "contractDependencies": [],
+                "contractKind": "contract",
+                "fullyImplemented": true,
+                "id": 9,
+                "linearizedBaseContracts": [
+                    9
+                ],
+                "name": "Superstream",
+                "nameLocation": "68:11:0",
+                "nodeType": "ContractDefinition",
+                "nodes": [
+                    {
+                        "canonicalName": "Superstream.Livestream",
+                        "id": 8,
+                        "members": [
+                            {
+                                "constant": false,
+                                "id": 3,
+                                "mutability": "mutable",
+                                "name": "streamId",
+                                "nameLocation": "115:8:0",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 8,
+                                "src": "108:15:0",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_string_storage_ptr",
+                                    "typeString": "string"
+                                },
+                                "typeName": {
+                                    "id": 2,
+                                    "name": "string",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "108:6:0",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_string_storage_ptr",
+                                        "typeString": "string"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 5,
+                                "mutability": "mutable",
+                                "name": "streamKey",
+                                "nameLocation": "137:9:0",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 8,
+                                "src": "130:16:0",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_string_storage_ptr",
+                                    "typeString": "string"
+                                },
+                                "typeName": {
+                                    "id": 4,
+                                    "name": "string",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "130:6:0",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_string_storage_ptr",
+                                        "typeString": "string"
+                                    }
+                                },
+                                "visibility": "internal"
+                            },
+                            {
+                                "constant": false,
+                                "id": 7,
+                                "mutability": "mutable",
+                                "name": "creator",
+                                "nameLocation": "161:7:0",
+                                "nodeType": "VariableDeclaration",
+                                "scope": 8,
+                                "src": "153:15:0",
+                                "stateVariable": false,
+                                "storageLocation": "default",
+                                "typeDescriptions": {
+                                    "typeIdentifier": "t_address",
+                                    "typeString": "address"
+                                },
+                                "typeName": {
+                                    "id": 6,
+                                    "name": "address",
+                                    "nodeType": "ElementaryTypeName",
+                                    "src": "153:7:0",
+                                    "stateMutability": "nonpayable",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    }
+                                },
+                                "visibility": "internal"
+                            }
+                        ],
+                        "name": "Livestream",
+                        "nameLocation": "91:10:0",
+                        "nodeType": "StructDefinition",
+                        "scope": 9,
+                        "src": "84:90:0",
+                        "visibility": "public"
+                    }
+                ],
+                "scope": 10,
+                "src": "59:126:0",
+                "usedErrors": []
+            }
+        ],
+        "src": "32:153:0"
+    },
+    "functionHashes": {},
+    "gasEstimates": {
+        "creation": {
+            "codeDepositCost": "12600",
+            "executionCost": "66",
+            "totalCost": "12666"
+        }
+    }
+}
