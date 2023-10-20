@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import VideoCard from "../components/VideoCard";
 import { useNFTCollection } from "@thirdweb-dev/react";
 import { STREAM_NFT_ADDRESS } from "../constants";
-import zkLogin from "../helpers/zkLogin";
+import { zkLogin } from "./callback";
 import video from "./video";
 import Loading from "../components/Loading";
 import Spinner from "../components/Spinner";
