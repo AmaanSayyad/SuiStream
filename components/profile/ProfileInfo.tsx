@@ -35,7 +35,7 @@ const ProfileInfo = ({ profileData }: Props) => {
 
   const showSubscribeModal = () => {
     if (!signer) {
-      toast("Connect your Metamask Wallet");
+      toast("Connect your Sui Wallet");
       return;
     }
     setSubscribeModal(true);
@@ -43,7 +43,7 @@ const ProfileInfo = ({ profileData }: Props) => {
 
   const handleUnsubscribe = () => {
     if (!signer) {
-      toast("Connect your Metamask Wallet");
+      toast("Connect your Sui Wallet");
       return;
     }
     setIsSubscribed(false);
@@ -53,7 +53,7 @@ const ProfileInfo = ({ profileData }: Props) => {
 
   const handleSendTip = () => {
     if (!signer) {
-      toast("Connect your Metamask Wallet");
+      toast("Connect your Sui Wallet");
       return;
     }
     setTipModal(true);
@@ -65,7 +65,7 @@ const ProfileInfo = ({ profileData }: Props) => {
         setIsFollowing(true);
       });
     } else {
-      toast("Connect your Metamask Wallet !");
+      toast("Connect your Sui Wallet !");
     }
   };
 

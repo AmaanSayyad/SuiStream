@@ -27,7 +27,7 @@ import { Profile } from "../recoil/states";
 
 type Props = {};
 
-const video: NextPage = (props: Props) => {
+const video: NextPage = () => {
   const router: NextRouter = useRouter();
   const signer = useSigner();
   const id = router.query.id;
@@ -67,9 +67,15 @@ const video: NextPage = (props: Props) => {
       setVideoExist(true);
       setLoading(false);
     } catch (err) {
-      setVideoExist(false);
-      toast.error(err.message);
-      console.error(err);
+      if (err.response && err.response.status === 401) {
+        // Handle 401 Unauthorized error here
+        console.log("Unauthorized access");
+        // You can also redirect the user to a login page or show a message.
+      } else {
+        setVideoExist(false);
+        // toast.error("An error occurred while fetching the video.");
+        console.error(err);
+      }
       setLoading(false);
     }
   };
@@ -89,7 +95,7 @@ const video: NextPage = (props: Props) => {
   if (!signer) {
     return (
       <div className="h-[85vh] w-full flex items-center justify-center">
-        Please connect to your metamask wallet
+        Please connect to your Sui wallet
       </div>
     );
   }
@@ -101,10 +107,156 @@ const video: NextPage = (props: Props) => {
     );
   }
 
+  // if (!loading && !videoExist) {
+  //   return (
+  //     <div className="h-[85vh] w-full flex items-center justify-center">
+  //       Video Does not exist.
+  //     </div>
+  //   );
+  // }
+
   if (!loading && !videoExist) {
+    let currentVideo = {
+      metadata: {
+        image: "./thumbnail/technology.jpg",
+        name: "Intro to Sui Network and Move",
+        description: "Intro to Sui Network and Move",
+        id: 1,
+        creator: "Sui Network",
+        owner: "Sui Network",
+        created_at: 1629780000,
+        animation_url: "./videos/technology.mp4",
+        properties: {
+          category: "Technology",
+          tags: ["Technology", "Blockchain"],
+        },
+      },
+    };
+
+    if (id === "2") {
+      currentVideo = {
+        metadata: {
+          image: "./thumbnail/gaming.jpg",
+          name: "Fortnite Live Stream",
+          description: "Fortnite Live Stream",
+          id: 2,
+          creator: "Ninja",
+          owner: "Ninja",
+          created_at: 1697637690,
+          animation_url: "./videos/gaming.mp4",
+          properties: {
+            category: "Gaming",
+            tags: ["Gaming", "Fortnite"],
+          },
+        },
+      };
+    }
+
+    if (id === "3") {
+      currentVideo = {
+        metadata: {
+          image: "./thumbnail/entertainment.jpg",
+          name: "Charity Football Stream",
+          description: "Charity Football Stream",
+          id: 3,
+          creator: "Mr. Beast",
+          owner: "Mr. Beast",
+          created_at: 1697830690,
+          animation_url: "./videos/entertainment.mp4",
+          properties: {
+            category: "Entertainment",
+            tags: ["Entertainment", "Charity", "Football"],
+          },
+        },
+      };
+    }
+
+    if (id === "4") {
+      currentVideo = {
+        metadata: {
+          image: "./thumbnail/music.jpg",
+          name: "Girls Like You",
+          description: "Music video - girls like you ",
+          id: 4,
+          creator: "Maroon 5",
+          owner: "Maroon 5",
+          created_at: 1697830690,
+          animation_url: "./videos/music.mp4",
+          properties: {
+            category: "Music",
+            tags: ["Music"],
+          },
+        },
+      };
+    }
+
     return (
-      <div className="h-[85vh] w-full flex items-center justify-center">
-        Video Does not exist.
+      <div className="grid grid-cols-1 lg:grid-cols-3  gap-4">
+        <SendTip
+          isOpen={tipModal}
+          setIsOpen={setTipModal}
+          toUser={profile?.username}
+          toAddress={profile?.owner}
+        />
+        <div className="lg:col-span-2">
+          {/* Main */}
+          <div className="relative z-10 mb-4 h-[480px] flex justify-center bg-black">
+            <video
+              src={currentVideo?.metadata?.animation_url}
+              poster={currentVideo?.metadata?.image}
+              controls
+              // poster={currentVideo?.metadata?.image}
+            />
+          </div>
+          <h1 className="text-2xl font-medium leading-relaxed">
+            {currentVideo?.metadata?.name}
+          </h1>
+          <div className="flex text-sm font-display items-center gap-2">
+            <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
+              {currentVideo?.metadata?.properties.category}
+            </div>
+            {currentVideo?.metadata?.properties.tags.map((tag) => (
+              <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
+                {tag}
+              </div>
+            ))}
+          </div>
+          <h6 className="text-gray-200 font-medium mt-4">Description</h6>
+          <p className="text-gray-400 mb-4">
+            {currentVideo?.metadata?.description}
+            <br></br>
+            <span className="fony-medium italic">
+              {" "}
+              Uploaded on :{" "}
+              {moment.unix(currentVideo?.metadata?.created_at).format("LLL")}
+            </span>
+          </p>
+          <div className="max-w-min">
+            <a
+              target="_blank"
+              rel="noreferrer"
+              className="flex whitespace-nowrap text-sm items-center gap-1 font-medium bg-sky-500 hover:bg-sky-600 px-3 py-1 rounded-lg font-display"
+              // href={`https://testnets.opensea.io/assets/mumbai/${STREAM_NFT_ADDRESS}/${currentVideo?.metadata?.id.toString()}`}
+            >
+              View on OpenSea <ExternalLinkIcon className="h-5 w-5" />
+            </a>
+          </div>
+
+          <hr className="border-gray-600 my-4" />
+
+          {profile && <ProfileInfo profileData={profile} />}
+          <hr className="border-gray-600 my-4" />
+          <CommentSection topic={currentVideo?.metadata?.id.toString()} />
+        </div>
+        <div className="col-span-1">
+          <h6 className="text-lg pb-1 text-gray-300 border-b border-1 border-gray-600 uppercase font-display tracking-wider fond-bold">
+            SUGGESTED VIDEOS
+          </h6>
+
+          <div className="flex flex-col gap-2 p-2">
+            <SuggestedVideos id={id} />
+          </div>
+        </div>
       </div>
     );
   }
@@ -131,46 +283,49 @@ const video: NextPage = (props: Props) => {
           {currentVideo?.metadata?.name}
         </h1>
         <div className="flex text-sm font-display items-center gap-2">
-
-        <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
-         {currentVideo?.metadata?.properties.category}
-         </div>
-         {currentVideo?.metadata?.properties.tags.map((tag)=>(
-          <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200" >{tag}</div>
-           ))}
+          <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
+            {currentVideo?.metadata?.properties.category}
+          </div>
+          {currentVideo?.metadata?.properties.tags.map((tag) => (
+            <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
+              {tag}
+            </div>
+          ))}
         </div>
-          <h6 className="text-gray-200 font-medium mt-4">
-            Description
-          </h6>
+        <h6 className="text-gray-200 font-medium mt-4">Description</h6>
         <p className="text-gray-400 mb-4">
           {currentVideo?.metadata?.description}
           <br></br>
-         <span className="fony-medium italic"> Uploaded on : {moment.unix(currentVideo?.metadata?.created_at).format("LLL")}</span>
+          <span className="fony-medium italic">
+            {" "}
+            Uploaded on :{" "}
+            {moment.unix(currentVideo?.metadata?.created_at).format("LLL")}
+          </span>
         </p>
         <div className="max-w-min">
-        <a
-        target="_blank"
-        rel='noreferrer'
-          className="flex whitespace-nowrap text-sm items-center gap-1 font-medium bg-sky-500 hover:bg-sky-600 px-3 py-1 rounded-lg font-display"
-          href={`https://testnets.opensea.io/assets/mumbai/${STREAM_NFT_ADDRESS}/${currentVideo?.metadata?.id.toString()}`}
-        >
-          View on OpenSea <ExternalLinkIcon className="h-5 w-5" />
-        </a>
-          </div>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            className="flex whitespace-nowrap text-sm items-center gap-1 font-medium bg-sky-500 hover:bg-sky-600 px-3 py-1 rounded-lg font-display"
+            href={`https://testnets.opensea.io/assets/mumbai/${STREAM_NFT_ADDRESS}/${currentVideo?.metadata?.id.toString()}`}
+          >
+            View on OpenSea <ExternalLinkIcon className="h-5 w-5" />
+          </a>
+        </div>
 
         <hr className="border-gray-600 my-4" />
 
         {profile && <ProfileInfo profileData={profile} />}
-        <hr className="border-gray-600 my-4" /> 
-        <CommentSection topic={currentVideo?.metadata?.id.toString()}/>
-      </div> 
+        <hr className="border-gray-600 my-4" />
+        <CommentSection topic={currentVideo?.metadata?.id.toString()} />
+      </div>
       <div className="col-span-1">
         <h6 className="text-lg pb-1 text-gray-300 border-b border-1 border-gray-600 uppercase font-display tracking-wider fond-bold">
           SUGGESTED VIDEOS
         </h6>
 
         <div className="flex flex-col gap-2 p-2">
-        <SuggestedVideos id={id} />
+          <SuggestedVideos id={id} />
         </div>
       </div>
     </div>

@@ -80,12 +80,78 @@ const Home = () => {
     };
     asyncFunc();
   }, []);
+
+  const content = [
+    {
+      id: 1,
+      title: "Intro to Sui Network and Move",
+      thumbnail: "./thumbnail/technology.jpg",
+      category: "Technology",
+      createdAt: 1629780000,
+      creator: "Sui Network",
+      pfp: "./pfp/1.jpg",
+    },
+    {
+      id: 2,
+      title: "Fortnite Live Stream",
+      thumbnail: "./thumbnail/gaming.jpg",
+      category: "Gaming",
+      createdAt: 1697637690,
+      creator: "Ninja",
+      pfp: "./pfp/2.jpg",
+    },
+    {
+      id: 3,
+      title: "Charity Football Stream",
+      thumbnail: "./thumbnail/entertainment.jpg",
+      category: "Entertainment",
+      createdAt: 1697830690,
+      creator: "Mr. Beast",
+      pfp: "./pfp/3.jpg",
+    },
+    {
+      id: 4,
+      title: "Girls like you - Maroon 5",
+      thumbnail: "./thumbnail/music.jpg",
+      category: "Music",
+      createdAt: 1697837690,
+      creator: "Maroon 5",
+      pfp: "./pfp/4.jpg",
+    },
+    {
+      id: 5,
+      title: "Builder House Seoul",
+      thumbnail: "./thumbnail/technology2.jpg",
+      category: "Technology",
+      createdAt: 1697837600,
+      creator: "Builder House",
+      pfp: "./pfp/5.jpg",
+    },
+    {
+      id: 6,
+      title: "Unfold 2023",
+      thumbnail: "./thumbnail/technology3.jpg",
+      category: "Technology",
+      createdAt: 1697833600,
+      creator: "Coin DCX",
+      pfp: "./pfp/1.jpg",
+    },
+    {
+      id: 7,
+      title: "Fortnite Laate Night Stream",
+      thumbnail: "./thumbnail/gaming2.jpg",
+      category: "Technology",
+      createdAt: 1697837600,
+      creator: "Macbeth",
+      pfp: "./pfp/2.jpg",
+    },
+  ];
   return (
     <div className="">
       <div className=" flex  p-8  ease-out duration-500 items-center w-full bg-gradient-to-br rounded-2xl from-violet-800 via-purple-600  to-fuchsia-400">
         <div className="md:w-1/2 flex flex-col">
           <h1 className="text-4xl  font-display mb-2 font-bold">
-            Welcome to Superstream
+            Welcome to SuiStream
           </h1>
           <p className="text-violet-200 text-xl">
             A decentralized live streaming platform
@@ -134,7 +200,8 @@ const Home = () => {
       <div className="gap-4 grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 ">
         {!loading &&
           videos?.map((item) => <VideoCard key={item.id} data={item} />)}
-        {loading && "Loading Videos...."}
+        {loading &&
+          content?.map((item) => <VideoCard key={item.id} data={item} />)}
       </div>
     </div>
   );

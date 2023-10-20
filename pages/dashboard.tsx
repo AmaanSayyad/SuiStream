@@ -15,34 +15,34 @@ import Stats from "../components/dashboard/Subscriptions/Stats";
 import { InformationCircleIcon } from "@heroicons/react/outline";
 
 const tabs = [
-  'Stream Details ',
-  'Sessions',
-  'Published Videos',
-  'Subscriptions',
-]
+  "Stream Details ",
+  "Sessions",
+  "Published Videos",
+  "Subscriptions",
+];
 
 type Props = {
-  web3storageToken:string
+  web3storageToken: string;
 };
 
 export async function getStaticProps() {
   const token = process.env.ACCESS_TOKEN;
   return {
     props: {
-      web3storageToken:token
+      web3storageToken: token,
     }, // will be passed to the page component as props
-  }
+  };
 }
 
-const Dashboard = ({web3storageToken}:Props) => {
+const Dashboard = ({ web3storageToken }: Props) => {
   const signer = useSigner();
   const currentUser = useRecoilValue(currentUserState);
   const [loading, setLoading] = useState(true);
   const [stream, setStream] = useState<any>();
   const livepeer = useLivpeerApi();
   const router = useRouter();
-  const {getStreamKey} = useSuperstreamContract();
-  
+  const { getStreamKey } = useSuperstreamContract();
+
   const getStreamStatus = async () => {
     setLoading(true);
     const data = await livepeer.fetchStreamStatus(currentUser.profile.streamId);
@@ -60,7 +60,7 @@ const Dashboard = ({web3storageToken}:Props) => {
   if (!signer) {
     return (
       <div className="h-[85vh] flex items-center justify-center text-lg">
-        Please Connect your metamask wallet!
+        Please Connect your Sui wallet!
       </div>
     );
   }
@@ -86,7 +86,7 @@ const Dashboard = ({web3storageToken}:Props) => {
           <Tab.List className={styles.tablist}>
             {tabs.map((item) => (
               <Tab
-            key={item}
+                key={item}
                 as="div"
                 className={({ selected }) =>
                   selected ? styles.selectedTab : styles.tab
@@ -99,24 +99,24 @@ const Dashboard = ({web3storageToken}:Props) => {
           <Tab.Panels>
             <Tab.Panel>
               <div className="flex w-full flex-wrap gap-4">
-              <EditStreamInfo web3storageToken={web3storageToken}/>
-              <StreamDetails stream={stream} />
+                <EditStreamInfo web3storageToken={web3storageToken} />
+                <StreamDetails stream={stream} />
               </div>
             </Tab.Panel>
             <Tab.Panel>
-              <SessionDetails streamId={currentUser?.profile?.streamId}/>
+              <SessionDetails streamId={currentUser?.profile?.streamId} />
             </Tab.Panel>
             <Tab.Panel>Published Videos</Tab.Panel>
             <Tab.Panel>
-            <div className="flex w-full flex-wrap gap-4">
-            <p className="border w-full bg-sky-900 bg-opacity-50 border-sky-500 text-sky-300 px-2 flex gap-2 p-1 rounded-md text-sm">
-          <InformationCircleIcon className="h-5 w-5 " />
-          Subscribers pay for each second in USDCx they are subscribed to your
-          channel.
-        </p>
-              <Subscriptions/>
-            <Stats/>
-            </div>
+              <div className="flex w-full flex-wrap gap-4">
+                <p className="border w-full bg-sky-900 bg-opacity-50 border-sky-500 text-sky-300 px-2 flex gap-2 p-1 rounded-md text-sm">
+                  <InformationCircleIcon className="h-5 w-5 " />
+                  Subscribers pay for each second in USDCx they are subscribed
+                  to your channel.
+                </p>
+                <Subscriptions />
+                <Stats />
+              </div>
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { STREAM_NFT_ADDRESS } from "../../constants";
 import Spinner from "../Spinner";
+// import technology from "../../content/thumbnail/tecnhology.jpg";
+// import techVideo from "../../content/videos/technology.mp4";
 
 type Props = {
   address: string | string[];
@@ -51,11 +53,42 @@ const MyVideos = ({ address }: Props) => {
   }, [address]);
 
   if (loading) {
+    const content = [
+      {
+        id: 1,
+        title: "Intro to Sui Network and Move",
+        thumbnail: "./thumbnail/technology.jpg",
+        category: "Technology",
+        createdAt: 1629780000,
+        creator: "Sui Network",
+      },
+    ];
     return (
-      <div className="flex justify-center items-center gap-2 mt-4">
-        <Spinner />
-        Loading Videos....
+      <div>
+        {content?.map((item) => (
+          <Link href={`/video?id=${item?.id.toString()}`}>
+            <div className="flex gap-3 my-4 hover:p-2 hover:bg-slate-700 duration-200 ease-out cursor-pointer rounded-xl">
+              <img
+                src={item.thumbnail}
+                className="max-h-28 aspect-video rounded-xl bg-slate-600"
+              />
+              <div className="flex flex-col">
+                <h6 className="font-medium text-lg mb-1">{item?.title}</h6>
+                <p className="font-medium mb-1 italic  text-slate-300">
+                  {item?.creator}{" "}
+                </p>
+                <p className="text-slate-400">
+                  {moment.unix(item?.createdAt).fromNow()} | {item?.category}
+                </p>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
+      // <div className="flex justify-center items-center gap-2 mt-4">
+      //   <Spinner />
+      //   Loading Videos....
+      // </div>
     );
   }
   return (

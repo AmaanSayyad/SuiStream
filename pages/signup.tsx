@@ -12,31 +12,28 @@ import { useRecoilState } from "recoil";
 import { currentUserState } from "../recoil/states";
 
 type Props = {
-  web3storageToken:string
+  web3storageToken: string;
 };
-
 
 export async function getStaticProps() {
   const token = process.env.ACCESS_TOKEN;
   return {
     props: {
-      web3storageToken:token
+      web3storageToken: token,
     }, // will be passed to the page component as props
-  }
+  };
 }
 
-
-
-const profile = (props:Props) => {
+const profile = (props: Props) => {
   const currentAccount = useAddress();
-  const router:NextRouter = useRouter();
-  const [minting,setMinting] = useState<boolean>();
+  const router: NextRouter = useRouter();
+  const [minting, setMinting] = useState<boolean>();
   const filePickerRef = useRef<HTMLInputElement>();
   const [selectedFile, setSelectedFile] = useState<string>();
-  const {addProfile,checkIfUsernameExists} = useSuperstreamContract()
+  const { addProfile, checkIfUsernameExists } = useSuperstreamContract();
   const livepeerApi = useLivpeerApi();
-  const {storeFile} = useWeb3Storage();
-  const [error,setError] = useState<string[]>([]);
+  const { storeFile } = useWeb3Storage();
+  const [error, setError] = useState<string[]>([]);
   const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
   const superstream = useSuperstreamContract();
   const handleSubmit = async (e) => {
@@ -44,46 +41,51 @@ const profile = (props:Props) => {
     setMinting(true);
     const username = e.target.username.value;
     const bio = e.target.bio.value;
-    const file = filePickerRef.current.files[0];    
+    const file = filePickerRef.current.files[0];
     // try{
     //   const usernameTaken = await checkIfUsernameExists(username);
     // } catch(err){
     //   console.error(err);
     // }
-    if(!file) {
-      setError([...error,"Please Choose a profile picture"])
+    if (!file) {
+      setError([...error, "Please Choose a profile picture"]);
     }
-    if(!username && !bio){
-      setError([...error,"Please fill all fields"])
-    } 
+    if (!username && !bio) {
+      setError([...error, "Please fill all fields"]);
+    }
     // if(usernameTaken) {
     //   setError([...error,"Username already taken !!"])
     // }
-    if(username && bio && file){
-      try{
-      // Create Stream in Livepeer -- get streamId,streamKey
-      const streamObject:any = await livepeerApi.createStream(username);
-      console.log(streamObject.data);
-      // Upload pfp to ipfs -- get pfpCid
-      toast("Uploading profile picture to Ipfs...")
-      const pfpUri = await storeFile(file,props.web3storageToken);
-      console.log("Profile Picture Uploaded to " +pfpUri);
-      // mint profile nft -- get profileId
-      toast("Creating Profile...")
-      await addProfile(username,bio,pfpUri,streamObject.data.id,streamObject.data.streamKey)
-      toast.success("Profile Created Successfully..")
-      setMinting(false);
-      checkIfUserHasProfile();
-      router.push('/dashboard');
-    } catch(err) {
-      console.error(err);
-      toast.error(err.message);
+    if (username && bio && file) {
+      try {
+        // Create Stream in Livepeer -- get streamId,streamKey
+        const streamObject: any = await livepeerApi.createStream(username);
+        console.log(streamObject.data);
+        // Upload pfp to ipfs -- get pfpCid
+        toast("Uploading profile picture to Ipfs...");
+        const pfpUri = await storeFile(file, props.web3storageToken);
+        console.log("Profile Picture Uploaded to " + pfpUri);
+        // mint profile nft -- get profileId
+        toast("Creating Profile...");
+        await addProfile(
+          username,
+          bio,
+          pfpUri,
+          streamObject.data.id,
+          streamObject.data.streamKey
+        );
+        toast.success("Profile Created Successfully..");
+        setMinting(false);
+        checkIfUserHasProfile();
+        router.push("/dashboard");
+      } catch (err) {
+        console.error(err);
+        toast.error(err.message);
+      }
     }
-  }
-  setMinting(false)
+    setMinting(false);
   };
-  
-  
+
   const checkIfUserHasProfile = async () => {
     setCurrentUser({ ...currentUser, loading: true });
     console.log("Checking...");
@@ -99,8 +101,6 @@ const profile = (props:Props) => {
       setCurrentUser({ ...currentUser, hasProfile: false, loading: false });
     }
   };
-
-
 
   const handleFileChange = () => {
     const file = filePickerRef.current.files[0];
@@ -128,19 +128,13 @@ const profile = (props:Props) => {
     };
   };
 
-
-  if(!currentAccount){
-    return (
-      <div className="text-2xl font-medium">
-        PLease Connect to Metamask!
-      </div>
-    )
+  if (!currentAccount) {
+    return <div className="text-2xl font-medium">PLease Connect to Sui!</div>;
   }
 
   const closeModal = () => {
-    
-    router.push('/');
-  }
+    router.push("/");
+  };
 
   return (
     <Transition appear show={true} as={Fragment}>
@@ -188,8 +182,12 @@ const profile = (props:Props) => {
                   onSubmit={handleSubmit}
                 >
                   <div className="mb-8 relative">
-          
-                    {selectedFile && <XIcon onClick={()=>setSelectedFile(null)} className="cursor-pointer shadow-lg ring-1 ring-white duration-200 hover:shadow-2xl hover:scale-110 h-6 w-6 top-3 right-3 absolute bg-red-500 p-1 rounded-full "/>}
+                    {selectedFile && (
+                      <XIcon
+                        onClick={() => setSelectedFile(null)}
+                        className="cursor-pointer shadow-lg ring-1 ring-white duration-200 hover:shadow-2xl hover:scale-110 h-6 w-6 top-3 right-3 absolute bg-red-500 p-1 rounded-full "
+                      />
+                    )}
                     <div
                       onClick={() => filePickerRef.current.click()}
                       className="cursor-pointer  object-center object-contain ring-1 ring-white overflow-hidden rounded-full bg-gray-700  border-dashed flex items-center justify-center h-40 w-40"
@@ -237,11 +235,18 @@ const profile = (props:Props) => {
                         disabled={minting}
                         className=" bg-violet-600 disabled:bg-violet-700 disabled:bg-opacity-90 disabled:text-gray-300 hover:bg-violet-500"
                       >
-                        {minting && <Spinner className="w-5 fill-slate-100 mr-1 animate-spin text-violet-900" />}
+                        {minting && (
+                          <Spinner className="w-5 fill-slate-100 mr-1 animate-spin text-violet-900" />
+                        )}
                         {minting && "Creating Profile..."}
                         {!minting && "Create Profile"}
                       </button>
-                      <button onClick={closeModal} className="bg-slate-700 hover:bg-slate-600 text-gray-400">Cancel</button>
+                      <button
+                        onClick={closeModal}
+                        className="bg-slate-700 hover:bg-slate-600 text-gray-400"
+                      >
+                        Cancel
+                      </button>
                     </div>
                   </div>
                 </form>

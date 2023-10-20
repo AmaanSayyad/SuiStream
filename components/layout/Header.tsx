@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/states";
 import Link from "next/link";
 import CreateProfile from "./CreateProfile";
+import ConnectSui from "./ConnectMetamask";
 
 const Header = () => {
   const currentUserAddress = useAddress();
@@ -24,7 +25,7 @@ const Header = () => {
                 className="hover:scale-110 duration-300 ease-out cursor-pointer "
               />
             </Link>
-            <h1 className="font-display font-bold text-2xl ">Super Stream</h1>
+            <h1 className="font-display font-bold text-2xl ">Sui Stream</h1>
           </div>
           <div className="flex gap-3 items-center ">
             {!currentUser.loading && !currentUser.hasProfile && (
@@ -35,7 +36,7 @@ const Header = () => {
               </Link>
             )}
             {!currentUserAddress && !currentUser.hasProfile ? (
-              <ConnectMetamask />
+              <ConnectSui />
             ) : (
               <UserMenu />
             )}
