@@ -142,7 +142,7 @@ const EditStreamInfo = (props: Props) => {
       {currentUser?.profile?.defaultThumbnail ? (
         <img
           className="h-64 bg-slate-700 rounded-xl overflow-hidden my-4 aspect-video"
-          src={"https://ipfs.io/ipfs/" + currentUser?.profile?.defaultThumbnail}
+          src={currentUser?.profile?.defaultThumbnail}
           alt="thumbnail"
         />
       ) : (

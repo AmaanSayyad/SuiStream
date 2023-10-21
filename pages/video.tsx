@@ -92,7 +92,7 @@ const video: NextPage = () => {
     }
   }, [signer]);
 
-  if (!signer) {
+  if (signer) {
     return (
       <div className="h-[85vh] w-full flex items-center justify-center">
         Please connect to your Sui wallet
@@ -238,7 +238,7 @@ const video: NextPage = () => {
               className="flex whitespace-nowrap text-sm items-center gap-1 font-medium bg-sky-500 hover:bg-sky-600 px-3 py-1 rounded-lg font-display"
               // href={`https://testnets.opensea.io/assets/mumbai/${STREAM_NFT_ADDRESS}/${currentVideo?.metadata?.id.toString()}`}
             >
-              View on OpenSea <ExternalLinkIcon className="h-5 w-5" />
+              View on BlueMove <ExternalLinkIcon className="h-5 w-5" />
             </a>
           </div>
 
@@ -309,7 +309,7 @@ const video: NextPage = () => {
             className="flex whitespace-nowrap text-sm items-center gap-1 font-medium bg-sky-500 hover:bg-sky-600 px-3 py-1 rounded-lg font-display"
             href={`https://testnets.opensea.io/assets/mumbai/${STREAM_NFT_ADDRESS}/${currentVideo?.metadata?.id.toString()}`}
           >
-            View on OpenSea <ExternalLinkIcon className="h-5 w-5" />
+            View on BlueMove <ExternalLinkIcon className="h-5 w-5" />
           </a>
         </div>
 

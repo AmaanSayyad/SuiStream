@@ -74,7 +74,7 @@ const SessionDetails = ({ streamId }: Props) => {
       <div>
         <h1 className="text-xl font-display ">Recent Sessions</h1>
         <p className="mb-4 italic text-gray-500">
-          Note: Streams may 6+ minutes to get saved and appear here .
+          Note: Streams may take 6+ minutes to get saved and appear here .
         </p>
         {!sessionsLoading ? (
           <table className="w-full text-left rounded-md overflow-hidden ring-1 ring-gray-600 ">

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Menu } from "@headlessui/react";
 import Link from "next/link";
 import { ChevronDownIcon } from "@heroicons/react/outline";
 import { useAddress, useDisconnect } from "@thirdweb-dev/react";
+import {useWallet} from '@suiet/wallet-kit';
 import { useRecoilValue } from "recoil";
 import { currentUserState } from "../../recoil/states";
 import Copyable from "../Copyable";
@@ -14,12 +15,21 @@ export const parseAddress = (address) => {
 const UserMenu = () => {
   const currentUser = useRecoilValue(currentUserState);
   const disconnect = useDisconnect();
-  const address = useAddress();
+  // const address = useAddress();
+  const address = useWallet()
 
   const handleDisconnect = () => {
     disconnect();
     window.location.reload();
   };
+  useEffect(() => {
+    if (!address.connected) return;
+    console.log('connected wallet name: ', address.name)
+    console.log('account address: ', address.account?.address)
+    console.log('account publicKey: ', address.account?.publicKey)
+  }, [address.connected])
+
+
 
   return (
     <>
@@ -39,7 +49,7 @@ const UserMenu = () => {
           <div className="p-1 text-left flex flex-col min-w-fit gap-1">
             {currentUser.hasProfile && (
               <Menu.Item>
-                <Link href={`/u/${currentUser?.profile?.username}`}>
+                <Link href={`/u/7631`}>
                   <a className="px-4 py-1 whitespace-nowrap font-display hover:bg-slate-700 rounded-lg">
                     My Channel
                   </a>

@@ -26,7 +26,7 @@ type Props = {
 };
 
 export async function getStaticProps() {
-  const token = process.env.ACCESS_TOKEN;
+  const token = process.env.ACCESS_TOKEN || null;
   return {
     props: {
       web3storageToken: token,
@@ -35,6 +35,7 @@ export async function getStaticProps() {
 }
 
 const Dashboard = ({ web3storageToken }: Props) => {
+  
   const signer = useSigner();
   const currentUser = useRecoilValue(currentUserState);
   const [loading, setLoading] = useState(true);
@@ -57,21 +58,21 @@ const Dashboard = ({ web3storageToken }: Props) => {
     }
   }, [currentUser]);
 
-  if (!signer) {
-    return (
-      <div className="h-[85vh] flex items-center justify-center text-lg">
-        Please Connect your Sui wallet!
-      </div>
-    );
-  }
+  // if (!signer) {
+  //   return (
+  //     <div className="h-[85vh] flex items-center justify-center text-lg">
+  //       Please Connect your Sui wallet!
+  //     </div>
+  //   );
+  // }
 
   if (!currentUser.loading && !currentUser.hasProfile) {
     router.push("/signup");
   }
 
-  if (loading) {
-    return <Loading />;
-  }
+  // if (loading) {
+  //   return <Loading />;
+  // }
 
   const styles = {
     tablist: `flex   select-none  text-gray-400 p-1 gap-1 items-center bg-slate-800  rounded-lg  my-4 overflow-hidden `,

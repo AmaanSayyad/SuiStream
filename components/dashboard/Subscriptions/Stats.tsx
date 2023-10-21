@@ -18,11 +18,11 @@ const Stats = (props: Props) => {
     <div className={styles.container}>
       <div>
         <p className={styles.name}>Number of Subscribers</p>
-        <p className={styles.value}>{currentUser?.profile?.subscribersCount.toString()} </p>
+        <p className={styles.value}>{currentUser?.profile?.subscribersCount} </p>
       </div>
       <div>
         <p className={styles.name}>Expected Income Per Second</p>
-        <p className={styles.value}>$ {(Number(currentUser?.profile?.subscribersCount.toString()) * Number(ethers.utils.formatEther(currentUser?.profile?.subscriptionCharge.toString()))).toFixed(8) }</p>
+        <p className={styles.value}>$ {(Number(currentUser?.profile?.subscribersCount) * Number(currentUser?.profile?.subscriptionCharge.toString())).toFixed(8) }</p>
       </div>
      </div>
   )

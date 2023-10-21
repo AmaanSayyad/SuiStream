@@ -42,7 +42,7 @@ const Sidebar = (props: Props) => {
     },
     {
       name: "My Channel",
-      href: `/u/${currentUser?.profile?.username}`,
+      href: `/u/7631`,
       icon: UserIcon,
     },
     {

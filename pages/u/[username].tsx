@@ -20,17 +20,41 @@ const ProfilePage = (props: Props) => {
   const { username } = router.query;
   const superstream = useSuperstreamContract();
   const livepeer = useLivpeerApi();
-  const [profile, setProfile] = useState<Profile>();
+  // const [profile, setProfile] = useState<Profile>();
   const [loading, setLoading] = useState<boolean>(true);
   const [hasProfile, setHasProfile] = useState<boolean>(false);
   const [stream, setStream] = useState<any>();
+  interface Profile {
+    streamId: string;
+    defaultThumbnail: string; 
+    defaultTitle: string;     
+    owner: string;         
+    username: string;    
+    followers:number;   
+    subscribersCount:number;
+    pfp:"https://plus.unsplash.com/premium_photo-1676637000058-96549206fe71?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+    subscriptionCharge:number;
+  }
+  const profile: Profile = {
+    streamId: "0",
+    defaultThumbnail: "https://plus.unsplash.com/premium_photo-1676637000058-96549206fe71?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    defaultTitle: "Pro Coder",      
+    owner: "0xb1f78bda569a408b6a7da7cc264d660cb106f4bd9f4a3390d6e3ebdee555b283",                  
+    username: "Ankit"  ,
+    followers: 75,
+    subscribersCount: 42,
+    pfp:"https://plus.unsplash.com/premium_photo-1676637000058-96549206fe71?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    subscriptionCharge:120,
+  };
   
 
  const checkIfUserHasProfile = async (): Promise<void> => {
     setLoading(true);
     try {
-      const _profile: any = await superstream.getProfileByUsername(username);
-      setProfile(_profile);
+      // const _profile: any = await superstream.getProfileByUsername(username);
+
+      
+     
       setHasProfile(true);
     } catch (err) {
       console.error(err);
@@ -73,7 +97,7 @@ const ProfilePage = (props: Props) => {
               {stream?.isActive ? (
                 <div className="relative py-2 h-[465px] aspect-video ">
                   <Videojs
-                    poster={"https://ipfs.io/ipfs/" + profile?.defaultThumbnail}
+                    poster={profile?.defaultThumbnail}
                     src={`https://cdn.livepeer.com/hls/${stream?.playbackId}/index.m3u8`}
                   />
                 </div>

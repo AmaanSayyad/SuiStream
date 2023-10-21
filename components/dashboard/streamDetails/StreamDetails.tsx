@@ -22,11 +22,11 @@ const StreamDetails = ({stream}:any) => {
   }
 
   useEffect(() => {
-  if(signer){
+  
     fetchStreamKey();
-  }    
+   
 
-  }, [signer])
+  }, [])
   
 
   const handleToggleSubscribersMode = async () => {
