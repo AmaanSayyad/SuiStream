@@ -24,6 +24,7 @@ import CommentSection from "../components/video/CommentSection";
 import { STREAM_NFT_ADDRESS } from "../constants";
 import useSuperstreamContract from "../hooks/useSuperstreamContract";
 import { Profile } from "../recoil/states";
+import { BadgeCheckIcon } from "@heroicons/react/outline";
 
 type Props = {};
 
@@ -62,6 +63,7 @@ const video: NextPage = () => {
   const fetchVideo = async () => {
     setLoading(true);
     try {
+      //@ts-ignore
       const _video = await videoNft.get(Number(id));
       setCurrentVideo(_video);
       setVideoExist(true);
@@ -124,11 +126,11 @@ const video: NextPage = () => {
         id: 1,
         creator: "Sui Network",
         owner: "Sui Network",
-        created_at: 1629780000,
+        created_at: 1697830690,
         animation_url: "./videos/technology.mp4",
         properties: {
           category: "Technology",
-          tags: ["Technology", "Blockchain"],
+          tags: ["Blockchain"],
         },
       },
     };
@@ -138,7 +140,7 @@ const video: NextPage = () => {
         metadata: {
           image: "./thumbnail/gaming.jpg",
           name: "Fortnite Live Stream",
-          description: "Fortnite Live Stream",
+          description: "Fortnite's Halloween Update is CRAZY!",
           id: 2,
           creator: "Ninja",
           owner: "Ninja",
@@ -146,7 +148,7 @@ const video: NextPage = () => {
           animation_url: "./videos/gaming.mp4",
           properties: {
             category: "Gaming",
-            tags: ["Gaming", "Fortnite"],
+            tags: ["Fortnite"],
           },
         },
       };
@@ -156,8 +158,8 @@ const video: NextPage = () => {
       currentVideo = {
         metadata: {
           image: "./thumbnail/entertainment.jpg",
-          name: "Charity Football Stream",
-          description: "Charity Football Stream",
+          name: "Fight for $250,000!",
+          description: "Every Country on Earth Fights for $250,000!",
           id: 3,
           creator: "Mr. Beast",
           owner: "Mr. Beast",
@@ -165,7 +167,7 @@ const video: NextPage = () => {
           animation_url: "./videos/entertainment.mp4",
           properties: {
             category: "Entertainment",
-            tags: ["Entertainment", "Charity", "Football"],
+            tags: ["Charity", "Games"],
           },
         },
       };
@@ -176,7 +178,8 @@ const video: NextPage = () => {
         metadata: {
           image: "./thumbnail/music.jpg",
           name: "Girls Like You",
-          description: "Music video - girls like you ",
+          description:
+            "Maroon 5 - Girls Like You ft. Cardi B (Volume 2) (Official Music Video)",
           id: 4,
           creator: "Maroon 5",
           owner: "Maroon 5",
@@ -184,7 +187,65 @@ const video: NextPage = () => {
           animation_url: "./videos/music.mp4",
           properties: {
             category: "Music",
-            tags: ["Music"],
+            tags: ["Spotify"],
+          },
+        },
+      };
+    }
+
+    if (id === "5") {
+      currentVideo = {
+        metadata: {
+          image: "./thumbnail/technology2.jpg",
+          name: "Builder House Seoul",
+          description:
+            "Sui Mainnet Update with Adeniyi Abiodun - Sui Builder House Seoul",
+          id: 5,
+          creator: "Sui Network",
+          owner: "Sui Network",
+          created_at: 1697830690,
+          animation_url: "./videos/builderhouseseoul.mp4",
+          properties: {
+            category: "Technology",
+            tags: ["Blockchain"],
+          },
+        },
+      };
+    }
+
+    if (id === "6") {
+      currentVideo = {
+        metadata: {
+          image: "./thumbnail/technology3.jpg",
+          name: "Unfold 2023",
+          description: "Stream - Unfold 2023",
+          id: 6,
+          creator: "Sui Network",
+          owner: "Sui Network",
+          created_at: 1697830690,
+          animation_url: "./videos/unfold2023.mp4",
+          properties: {
+            category: "Entertainment",
+            tags: ["Blockchain"],
+          },
+        },
+      };
+    }
+
+    if (id === "7") {
+      currentVideo = {
+        metadata: {
+          image: "./thumbnail/gaming2.jpg",
+          name: "Fortnite Montage",
+          description: "A Fortnite Montage But All The Songs are 8D Audio...",
+          id: 7,
+          creator: "Macbeth",
+          owner: "Macbeth",
+          created_at: 1697830690,
+          animation_url: "./videos/fortnitestream.mp4",
+          properties: {
+            category: "Gaming",
+            tags: ["Fortnite"],
           },
         },
       };
@@ -195,7 +256,9 @@ const video: NextPage = () => {
         <SendTip
           isOpen={tipModal}
           setIsOpen={setTipModal}
+          //@ts-ignore
           toUser={profile?.username}
+          //@ts-ignore
           toAddress={profile?.owner}
         />
         <div className="lg:col-span-2">
@@ -208,38 +271,60 @@ const video: NextPage = () => {
               // poster={currentVideo?.metadata?.image}
             />
           </div>
-          <h1 className="text-2xl font-medium leading-relaxed">
-            {currentVideo?.metadata?.name}
-          </h1>
-          <div className="flex text-sm font-display items-center gap-2">
-            <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
-              {currentVideo?.metadata?.properties.category}
-            </div>
-            {currentVideo?.metadata?.properties.tags.map((tag) => (
-              <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
-                {tag}
+          <div className="flex justify-between">
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-medium leading-relaxed">
+                {currentVideo?.metadata?.name}
+              </h1>
+              <div className="flex text-sm font-display items-center gap-2">
+                <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
+                  {currentVideo?.metadata?.properties.category}
+                </div>
+                {currentVideo?.metadata?.properties.tags.map((tag) => (
+                  <div className="rounded-lg p-1 px-2 max-w-fit bg-slate-800 text-gray-200">
+                    {tag}
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <h6 className="text-gray-200 font-medium mt-4">Description</h6>
-          <p className="text-gray-400 mb-4">
-            {currentVideo?.metadata?.description}
-            <br></br>
-            <span className="fony-medium italic">
-              {" "}
-              Uploaded on :{" "}
-              {moment.unix(currentVideo?.metadata?.created_at).format("LLL")}
-            </span>
-          </p>
-          <div className="max-w-min">
-            <a
-              target="_blank"
-              rel="noreferrer"
-              className="flex whitespace-nowrap text-sm items-center gap-1 font-medium bg-sky-500 hover:bg-sky-600 px-3 py-1 rounded-lg font-display"
-              // href={`https://testnets.opensea.io/assets/mumbai/${STREAM_NFT_ADDRESS}/${currentVideo?.metadata?.id.toString()}`}
-            >
-              View on BlueMove <ExternalLinkIcon className="h-5 w-5" />
-            </a>
+              <h6 className="text-gray-200 font-medium mt-4">Description</h6>
+              <p className="text-gray-400 mb-4">
+                {currentVideo?.metadata?.description}
+                <br></br>
+                <span className="fony-medium italic">
+                  {" "}
+                  Uploaded on :{" "}
+                  {moment
+                    .unix(currentVideo?.metadata?.created_at)
+                    .format("LLL")}
+                </span>
+              </p>
+              <div className="max-w-min">
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex whitespace-nowrap text-sm items-center gap-1 font-medium bg-sky-500 hover:bg-sky-600 px-3 py-1 rounded-lg font-display"
+                  // href={`https://testnets.opensea.io/assets/mumbai/${STREAM_NFT_ADDRESS}/${currentVideo?.metadata?.id.toString()}`}
+                >
+                  View on BlueMove <ExternalLinkIcon className="h-5 w-5" />
+                </a>
+              </div>
+            </div>
+            <div className="flex gap-2 h-1/2">
+              <button className="text-lg bg-violet-600 hover:bg-violet-500 group  disabled:text-gray-400  disabled:bg-gray-800  gap-2">
+                <HeartIcon className="group-hover:scale-110 group-hover:rotate-12 duration-300 ease-out h-6 w-6" />
+                Following
+              </button>
+
+              <button className="text-lg flex bg-amber-500 hover:bg-yellow-500 group  disabled:text-gray-400  disabled:bg-gray-800  gap-2">
+                <BadgeCheckIcon className="group-hover:scale-110 group-hover:rotate-12 duration-300 ease-out h-6 w-6" />
+                Unsubscribe
+              </button>
+
+              <button className="text-lg bg-emerald-500 hover:bg-emerald-400 group   gap-2">
+                <GiftIcon className="group-hover:scale-110 group-hover:rotate-12 duration-300 ease-out h-6 w-6" />
+                Send Tip
+              </button>
+            </div>
           </div>
 
           <hr className="border-gray-600 my-4" />
@@ -254,7 +339,8 @@ const video: NextPage = () => {
           </h6>
 
           <div className="flex flex-col gap-2 p-2">
-            <SuggestedVideos id={id} />
+            {/* //@ts-ignore */}
+            {/* <SuggestedVideos id={id} /> */}
           </div>
         </div>
       </div>
@@ -266,7 +352,9 @@ const video: NextPage = () => {
       <SendTip
         isOpen={tipModal}
         setIsOpen={setTipModal}
+        //@ts-ignore
         toUser={profile?.username}
+        //@ts-ignore
         toAddress={profile?.owner}
       />
       <div className="lg:col-span-2">
@@ -325,7 +413,7 @@ const video: NextPage = () => {
         </h6>
 
         <div className="flex flex-col gap-2 p-2">
-          <SuggestedVideos id={id} />
+          {/* <SuggestedVideos id={id} /> */}
         </div>
       </div>
     </div>

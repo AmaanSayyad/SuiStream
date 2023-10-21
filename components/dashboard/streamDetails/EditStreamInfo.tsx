@@ -9,7 +9,7 @@ import useWeb3Storage from "../../../hooks/useWeb3Storage";
 import { profile } from "console";
 
 type Props = {
- web3storageToken:string
+  web3storageToken: string;
 };
 
 const EditStreamInfo = (props: Props) => {
@@ -20,27 +20,33 @@ const EditStreamInfo = (props: Props) => {
   const [selectedFile, setSelectedFile] = useState<string>();
   const filePickerRef = useRef<HTMLInputElement>();
   const { setStreamInfo } = useSuperstreamContract();
-  const {storeFile} = useWeb3Storage();
-  
-  const saveChanges = async() => {
+  const { storeFile } = useWeb3Storage();
+
+  const saveChanges = async () => {
     setSaving(true);
-    try{
+    try {
       toast("Saving changes");
       // get thumbnail Cid
-      const thumbnailUri =await storeFile(filePickerRef.current.files[0],props.web3storageToken); 
-      toast.success("Thumbnail Uploaded to Ipfs.")
-      const saveTxn = await setStreamInfo(title,thumbnailUri); 
+      //@ts-ignore
+      const thumbnailUri = await storeFile(
+        //@ts-ignore
+        filePickerRef.current.files[0],
+        props.web3storageToken
+      );
+      toast.success("Thumbnail Uploaded to Ipfs.");
+      //@ts-ignore
+      const saveTxn = await setStreamInfo(title, thumbnailUri);
       toast.success("Changes Saved");
       window.location.reload();
       setEditing(false);
       setSaving(false);
-    } catch(err){
+    } catch (err) {
       console.error(err);
-      toast.error(err.message);
     }
   };
 
   const handleFileChange = () => {
+    //@ts-ignore
     const file = filePickerRef.current.files[0];
     // Limit to either image/jpeg, image/jpg or image/png file
     const fileTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -52,7 +58,7 @@ const EditStreamInfo = (props: Props) => {
     }
     // Check file size to ensure it is less than 2MB.
     if (size / 1024 / 1024 > 2) {
-      toast.error("File size exceeded the limit of 2MB");
+      console.error("File size exceeded the limit of 2MB");
       return false;
     }
 
@@ -62,6 +68,7 @@ const EditStreamInfo = (props: Props) => {
     }
 
     reader.onload = (readerEvent) => {
+      //@ts-ignore
       setSelectedFile(readerEvent.target.result.toString());
     };
   };
@@ -76,6 +83,7 @@ const EditStreamInfo = (props: Props) => {
         <div className="h-64 border-2 relative overflow-hidden border-dashed text-slate-400 border-slate-600 my-4 rounded-xl aspect-video flex items-center justify-center">
           <input
             type="file"
+            //@ts-ignore
             ref={filePickerRef}
             onChange={handleFileChange}
             hidden
@@ -84,10 +92,10 @@ const EditStreamInfo = (props: Props) => {
           />
           {!selectedFile && (
             <button
+              //@ts-ignore
               onClick={() => filePickerRef.current.click()}
               className="bg-slate-700 px-4 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-600 rounded-full"
             >
-              
               <PhotographIcon className="h-6 w-6" /> Click to upload thumbnail
             </button>
           )}
@@ -98,8 +106,15 @@ const EditStreamInfo = (props: Props) => {
               className="h-full w-full "
             />
           )}
+
           {selectedFile && (
-            <button onClick={()=>setSelectedFile(null)} className="absolute bg-red-500 text-white text-xs right-2 top-2 px-2">Reset</button>
+            <button
+              //@ts-ignore
+              onClick={() => setSelectedFile(null)}
+              className="absolute bg-red-500 text-white text-xs right-2 top-2 px-2"
+            >
+              Reset
+            </button>
           )}
         </div>
         <input

@@ -35,7 +35,6 @@ export async function getStaticProps() {
 }
 
 const Dashboard = ({ web3storageToken }: Props) => {
-  
   const signer = useSigner();
   const currentUser = useRecoilValue(currentUserState);
   const [loading, setLoading] = useState(true);
@@ -46,6 +45,7 @@ const Dashboard = ({ web3storageToken }: Props) => {
 
   const getStreamStatus = async () => {
     setLoading(true);
+    //@ts-ignore
     const data = await livepeer.fetchStreamStatus(currentUser.profile.streamId);
     setStream(data);
     console.log(stream);
@@ -105,6 +105,7 @@ const Dashboard = ({ web3storageToken }: Props) => {
               </div>
             </Tab.Panel>
             <Tab.Panel>
+              {/* @ts-ignore */}
               <SessionDetails streamId={currentUser?.profile?.streamId} />
             </Tab.Panel>
             <Tab.Panel>Published Videos</Tab.Panel>

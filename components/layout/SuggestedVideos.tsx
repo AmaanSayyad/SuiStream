@@ -17,6 +17,7 @@ const SuggestedVideos = (props: Props) => {
   const getAllVideos = async () => {
     try {
       setLoading(true);
+      //@ts-ignore
       const res = await streamNft.getAll();
       res.forEach((item) => {
         if (item?.metadata?.id.toString() != props?.id) {

@@ -1,13 +1,23 @@
 import { ChipIcon, FilmIcon, MusicNoteIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import VideoCard from "../components/VideoCard";
 import { useNFTCollection } from "@thirdweb-dev/react";
 import { STREAM_NFT_ADDRESS } from "../constants";
-import { zkLogin } from "./callback";
+// import { zkLogin } from "./callback";
 import video from "./video";
 import Loading from "../components/Loading";
 import Spinner from "../components/Spinner";
+
+import { Github } from "../components/icons";
+import { authOptions } from "../lib/auth";
+import prisma from "../lib/prisma";
+import { deriveUserSalt } from "../lib/salt";
+import { nFormatter } from "../lib/utils";
+import { jwtToAddress } from "@mysten/zklogin";
+import { getServerSession } from "next-auth/next";
+import Header from "./Header";
+
 const GameIcon = (props) => (
   <svg xmlns="http://www.w3.org/2000/svg" {...props} viewBox="0 0 512 512">
     <title>Game Controller</title>
@@ -39,10 +49,36 @@ const Home = () => {
   const streamNft = useNFTCollection(STREAM_NFT_ADDRESS);
   const [videos, setVideos] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>();
+  const [session, setSession] = useState(null);
+
+  const [address, setAddress] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("/api/user");
+
+        const data = await response.json();
+
+        console.log("Data : ", data);
+
+        setSession(data.session);
+        setAddress(data.address);
+
+        // Fetch videos
+        await getAllVideos();
+      } catch (error) {
+        console.error(error);
+        // Handle errors...
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const getAllVideos = async () => {
     setLoading(true);
     try {
+      //@ts-ignore
       const res = await streamNft.getAll();
       console.log("harsh", res);
       res.forEach((item) => {
@@ -73,13 +109,13 @@ const Home = () => {
     getAllVideos();
   }, []);
 
-  useEffect(() => {
-    const asyncFunc = async () => {
-      // Call zkLogin here or perform other asynchronous tasks if needed
-      await zkLogin();
-    };
-    asyncFunc();
-  }, []);
+  // useEffect(() => {
+  //   const asyncFunc = async () => {
+  //     // Call zkLogin here or perform other asynchronous tasks if needed
+  //     await zkLogin();
+  //   };
+  //   asyncFunc();
+  // }, []);
 
   const content = [
     {
@@ -87,7 +123,7 @@ const Home = () => {
       title: "Intro to Sui Network and Move",
       thumbnail: "./thumbnail/technology.jpg",
       category: "Technology",
-      createdAt: 1629780000,
+      createdAt: 1697830690,
       creator: "Sui Network",
       pfp: "./pfp/1.jpg",
     },
@@ -98,16 +134,16 @@ const Home = () => {
       category: "Gaming",
       createdAt: 1697637690,
       creator: "Ninja",
-      pfp: "./pfp/2.jpg",
+      pfp: "./pfp/4.jpg",
     },
     {
       id: 3,
-      title: "Charity Football Stream",
+      title: "Fight for $250,000!",
       thumbnail: "./thumbnail/entertainment.jpg",
       category: "Entertainment",
       createdAt: 1697830690,
       creator: "Mr. Beast",
-      pfp: "./pfp/3.jpg",
+      pfp: "./pfp/2.jpg",
     },
     {
       id: 4,
@@ -116,7 +152,7 @@ const Home = () => {
       category: "Music",
       createdAt: 1697837690,
       creator: "Maroon 5",
-      pfp: "./pfp/4.jpg",
+      pfp: "./pfp/3.jpg",
     },
     {
       id: 5,
@@ -125,7 +161,7 @@ const Home = () => {
       category: "Technology",
       createdAt: 1697837600,
       creator: "Builder House",
-      pfp: "./pfp/5.jpg",
+      pfp: "./pfp/1.jpg",
     },
     {
       id: 6,
@@ -138,16 +174,49 @@ const Home = () => {
     },
     {
       id: 7,
-      title: "Fortnite Laate Night Stream",
+      title: "Fortnite Late Night Stream",
       thumbnail: "./thumbnail/gaming2.jpg",
       category: "Technology",
       createdAt: 1697837600,
       creator: "Macbeth",
-      pfp: "./pfp/2.jpg",
+      pfp: "./pfp/5.jpg",
     },
   ];
   return (
     <div className="">
+      <div className="z-20 w-full max-w-2xl px-5 xl:px-0">
+        {session != null && (
+          <>
+            <h1 className="text-white text-center">
+              {
+                //@ts-ignore
+                `Welcome back, ${session?.user?.name}`
+              }
+            </h1>
+            <div className="border-[1px] border-slate-300 rounded-lg px-3 py-4 flex flex-col gap-2 w-full">
+              <p
+                className=" text-center text-white"
+                style={{
+                  animationDelay: "0.25s",
+                  animationFillMode: "forwards",
+                }}
+              >
+                Your Sui address is:
+              </p>
+              <p
+                className="text-white text-center"
+                style={{
+                  animationDelay: "0.25s",
+                  animationFillMode: "forwards",
+                }}
+              >
+                {address}
+              </p>
+            </div>
+          </>
+        )}
+        {session === null && <div className="h-16"></div>}
+      </div>
       <div className=" flex  p-8  ease-out duration-500 items-center w-full bg-gradient-to-br rounded-2xl from-violet-800 via-purple-600  to-fuchsia-400">
         <div className="md:w-1/2 flex flex-col">
           <h1 className="text-4xl  font-display mb-2 font-bold">
@@ -199,8 +268,10 @@ const Home = () => {
       </h1>
       <div className="gap-4 grid sm:grid-cols-2 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 ">
         {!loading &&
+          //@ts-ignore
           videos?.map((item) => <VideoCard key={item.id} data={item} />)}
         {loading &&
+          //@ts-ignore
           content?.map((item) => <VideoCard key={item.id} data={item} />)}
       </div>
     </div>

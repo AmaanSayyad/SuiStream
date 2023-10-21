@@ -19,6 +19,7 @@ const MyVideos = ({ address }: Props) => {
 
   const getAllVideos = async () => {
     setLoading(true);
+    //@ts-ignore
     const res = await streamNft.getOwned(address.toString());
 
     console.log("harsh");

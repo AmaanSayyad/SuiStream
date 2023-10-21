@@ -17,13 +17,28 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-  ],
+    "**/*.tsx",
+    "helpers/mysten.jsx",
+    "helpers/functions.jsx",
+    ".next/types/**/*.ts",
+    "app/api/auth/[...nextauth]/route.ts.bk"
+, "pages/api/user.tsx" ],
   "exclude": [
     "node_modules"
   ]

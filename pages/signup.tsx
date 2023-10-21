@@ -41,6 +41,7 @@ const profile = (props: Props) => {
     setMinting(true);
     const username = e.target.username.value;
     const bio = e.target.bio.value;
+    //@ts-ignore
     const file = filePickerRef.current.files[0];
     // try{
     //   const usernameTaken = await checkIfUsernameExists(username);
@@ -70,6 +71,7 @@ const profile = (props: Props) => {
         await addProfile(
           username,
           bio,
+          //@ts-ignore
           pfpUri,
           streamObject.data.id,
           streamObject.data.streamKey
@@ -103,6 +105,7 @@ const profile = (props: Props) => {
   };
 
   const handleFileChange = () => {
+    //@ts-ignore
     const file = filePickerRef.current.files[0];
     // Limit to either image/jpeg, image/jpg or image/png file
     const fileTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -124,6 +127,7 @@ const profile = (props: Props) => {
     }
 
     reader.onload = (readerEvent) => {
+      //@ts-ignore
       setSelectedFile(readerEvent.target.result.toString());
     };
   };
@@ -184,16 +188,19 @@ const profile = (props: Props) => {
                   <div className="mb-8 relative">
                     {selectedFile && (
                       <XIcon
+                        //@ts-ignore
                         onClick={() => setSelectedFile(null)}
                         className="cursor-pointer shadow-lg ring-1 ring-white duration-200 hover:shadow-2xl hover:scale-110 h-6 w-6 top-3 right-3 absolute bg-red-500 p-1 rounded-full "
                       />
                     )}
                     <div
+                      //@ts-ignore
                       onClick={() => filePickerRef.current.click()}
                       className="cursor-pointer  object-center object-contain ring-1 ring-white overflow-hidden rounded-full bg-gray-700  border-dashed flex items-center justify-center h-40 w-40"
                     >
                       <input
                         type="file"
+                        //@ts-ignore
                         ref={filePickerRef}
                         onChange={handleFileChange}
                         hidden

@@ -103,7 +103,7 @@ const SessionDetails = ({ streamId }: Props) => {
                     <td className="p-2 px-4 text-center">{session.recordingStatus}</td>
                     <td className="p-2 px-4 text-right">
                       {session.status == "Unpublished" && (
-                        <Link href={`/publish?id=${session.id}`}>
+                        <Link legacyBehavior href={`/publish?id=${session.id}`}>
                           <a className="bg-emerald-600 rounded-md whitespace-nowrap py-1 px-2 font-display text-sm font-medium hover:bg-emerald-500 ">
                             Mint & Publish Stream
                           </a>

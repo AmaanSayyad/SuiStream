@@ -3,7 +3,7 @@ import { SuiClient } from "@mysten/sui.js/client";
 import { Ed25519Keypair } from "@mysten/sui.js/keypairs/ed25519";
 import { jwtToAddress } from "@mysten/zklogin";
 
-const REDIRECT_URI = "http://localhost:3000/callback";
+const REDIRECT_URI = "https://10af-110-224-90-133.ngrok-free.app/callback";
 
 const FULLNODE_URL = "https://fullnode.devnet.sui.io"; // replace with the RPC URL you want to use
 

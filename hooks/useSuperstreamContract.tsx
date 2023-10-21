@@ -63,6 +63,7 @@ const useSuperstreamContract = () => {
 
   const getProfileByUsername = async (
     username: string | string[]
+    //@ts-ignore
   ): Promise<Profile> => {
     try {
       const res = await contract.getProfileByUsername(username);
@@ -86,6 +87,7 @@ const useSuperstreamContract = () => {
       toast.error(err.message);
     }
   };
+  //@ts-ignore
   const getProfileByAddress = async (): Promise<Profile> => {
     try {
       const res = await contract.getProfileByAddress();
@@ -108,6 +110,7 @@ const useSuperstreamContract = () => {
       console.error(err);
     }
   };
+  //@ts-ignore
   const getStreamId = async (username: string | string[]): Promise<string> => {
     try {
       const streamId = await contract.getStreamId(username);
@@ -118,7 +121,7 @@ const useSuperstreamContract = () => {
       toast.error(err.message);
     }
   };
-
+  //@ts-ignore
   const getStreamKey = async (): Promise<string> => {
     try {
       const streamKey = await contract.getStreamKey();
@@ -129,6 +132,7 @@ const useSuperstreamContract = () => {
     }
   };
 
+  //@ts-ignore
   const checkIfUsernameExists = async (username: string): Promise<boolean> => {
     try {
       const usernameExists = await contract.usernameTaken(username);
@@ -141,6 +145,7 @@ const useSuperstreamContract = () => {
 
   const getStreamInfo = async (
     username: string
+    //@ts-ignore
   ): Promise<{ title: string; thumbnail: string }> => {
     try {
       const streamInfo = await contract.getStreamInfo(username);
@@ -204,6 +209,7 @@ const useSuperstreamContract = () => {
     }
   };
 
+  //@ts-ignore
   const getSessionData = async (streamNftId: number): Promise<SessionData> => {
     try {
       const response = await contract.getSessionData(streamNftId);
@@ -225,9 +231,7 @@ const useSuperstreamContract = () => {
     streamNftId: number
   ): Promise<void> => {
     try {
-      const response = await contract.getSessionWithViewIncrement(
-        streamNftId
-      );
+      const response = await contract.getSessionWithViewIncrement(streamNftId);
       console.log(response);
     } catch (err) {
       console.error(err);
@@ -296,6 +300,7 @@ const useSuperstreamContract = () => {
     }
   };
 
+  //@ts-ignore
   const isSubscriber = async (username: string): Promise<boolean> => {
     try {
       const response = await contract.isSubscriber(username);
@@ -317,6 +322,7 @@ const useSuperstreamContract = () => {
     }
   };
 
+  //@ts-ignore
   const getComments = async (topic: string): Promise<Comment[]> => {
     try {
       let comments: Comment[] = [];

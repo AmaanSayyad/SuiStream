@@ -9,20 +9,19 @@ import Spinner from "../Spinner";
 type Props = {
   isOpen: boolean;
   setIsOpen: (boolean) => void;
-  web3storageToken:string
+  web3storageToken: string;
 };
 
-
-
-
-const CreateProfile = ({ isOpen, setIsOpen,web3storageToken }: Props) => {
-  const filePickerRef = useRef<HTMLInputElement>();
+const CreateProfile = ({ isOpen, setIsOpen, web3storageToken }: Props) => {
+  const filePickerRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState<string>();
   const [errors, setErrors] = useState<string[]>([]);
   const [minting, setMinting] = useState<boolean>(false);
+
   const web3Storage = useWeb3Storage();
-  const {checkIfUsernameExists} = useSuperstreamContract();
+  const { checkIfUsernameExists } = useSuperstreamContract();
   const handleFileChange = () => {
+    //@ts-ignore
     const file = filePickerRef.current.files[0];
     // Limit to either image/jpeg, image/jpg or image/png file
     const fileTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -44,6 +43,7 @@ const CreateProfile = ({ isOpen, setIsOpen,web3storageToken }: Props) => {
     }
 
     reader.onload = (readerEvent) => {
+      //@ts-ignore
       setSelectedFile(readerEvent.target.result.toString());
     };
   };
@@ -53,28 +53,29 @@ const CreateProfile = ({ isOpen, setIsOpen,web3storageToken }: Props) => {
     setMinting(true);
     const username = e.target.username.value;
     const bio = e.target.bio.value;
+    //@ts-ignore
     const file = filePickerRef.current.files[0];
 
-    if(!file) {
-      setErrors([...errors,"Please Choose a profile picture"])
+    if (!file) {
+      setErrors([...errors, "Please Choose a profile picture"]);
     }
-    if(!username && !bio){
-      setErrors([...errors,"Please fill all fields"])
-    } 
+    if (!username && !bio) {
+      setErrors([...errors, "Please fill all fields"]);
+    }
     // if(usernameTaken) {
     //   setErrors([...errors,"Username already taken !!"])
     // }
-    if(username && bio && file){
-    try{
-      // Upload thumbnail to ipfs
-      const pfp = await web3Storage.storeFile(file,web3storageToken);
-      // Save data to block chain
-
-    } catch(err){
-      toast.error(err.message);
-      console.error(err);
+    if (username && bio && file) {
+      try {
+        // Upload thumbnail to ipfs
+        const pfp = await web3Storage.storeFile(file, web3storageToken);
+        // Save data to block chain
+      } catch (err) {
+        toast.error(err.message);
+        console.error(err);
+      }
     }
-  }
+    //@ts-ignore
     setSelectedFile(null);
     setMinting(false);
   };
@@ -83,10 +84,10 @@ const CreateProfile = ({ isOpen, setIsOpen,web3storageToken }: Props) => {
     setIsOpen(false);
   };
 
-  
-  useEffect(()=>{
+  useEffect(() => {
+    //@ts-ignore
     return () => setSelectedFile(null);
-  },[])
+  }, []);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -134,9 +135,15 @@ const CreateProfile = ({ isOpen, setIsOpen,web3storageToken }: Props) => {
                   onSubmit={handleSubmit}
                 >
                   <div className="mb-8 relative">
-          
-                    {selectedFile && <XIcon onClick={()=>setSelectedFile(null)} className="cursor-pointer shadow-lg ring-1 ring-white duration-200 hover:shadow-2xl hover:scale-110 h-6 w-6 top-3 right-3 absolute bg-red-500 p-1 rounded-full "/>}
+                    {selectedFile && (
+                      <XIcon
+                        //@ts-ignore
+                        onClick={() => setSelectedFile(null)}
+                        className="cursor-pointer shadow-lg ring-1 ring-white duration-200 hover:shadow-2xl hover:scale-110 h-6 w-6 top-3 right-3 absolute bg-red-500 p-1 rounded-full "
+                      />
+                    )}
                     <div
+                      //@ts-ignore
                       onClick={() => filePickerRef.current.click()}
                       className="cursor-pointer  object-center object-contain ring-1 ring-white overflow-hidden rounded-full bg-gray-700  border-dashed flex items-center justify-center h-40 w-40"
                     >
@@ -183,11 +190,18 @@ const CreateProfile = ({ isOpen, setIsOpen,web3storageToken }: Props) => {
                         disabled={minting}
                         className=" bg-violet-600 disabled:bg-violet-700 disabled:bg-opacity-90 disabled:text-gray-300 hover:bg-violet-500"
                       >
-                        {minting && <Spinner className="w-5 fill-slate-100 mr-1 animate-spin text-violet-900" />}
+                        {minting && (
+                          <Spinner className="w-5 fill-slate-100 mr-1 animate-spin text-violet-900" />
+                        )}
                         {minting && "Creating Profile..."}
                         {!minting && "Create Profile"}
                       </button>
-                      <button onClick={closeModal} className="bg-slate-700 hover:bg-slate-600 text-gray-400">Cancel</button>
+                      <button
+                        onClick={closeModal}
+                        className="bg-slate-700 hover:bg-slate-600 text-gray-400"
+                      >
+                        Cancel
+                      </button>
                     </div>
                   </div>
                 </form>

@@ -91,12 +91,14 @@ const upload = (props: Props) => {
       setButtonState("Uploading Video...");
       toast("Uploading video to ipfs");
       const videoCid = await storeFile(
+        //@ts-ignore
         videoRef.current.files[0],
         props.web3storageToken
       );
       setButtonState("Uploading Thumbnail...");
       toast("Uploading thumbnail to ipfs");
       const thumbnail = await storeFile(
+        //@ts-ignore
         thumbnailRef.current.files[0],
         props.web3storageToken
       );
@@ -106,6 +108,7 @@ const upload = (props: Props) => {
         image: "ipfs://" + thumbnail,
         animation_url: "ipfs://" + videoCid,
         created_at: Math.floor(new Date().getTime() / 1000).toString(),
+        //@ts-ignore
         creator: currentUser.profile.username,
         properties: {
           category: category.name,
@@ -129,6 +132,7 @@ const upload = (props: Props) => {
   };
 
   const handleVideoChange = () => {
+    //@ts-ignore
     const file = videoRef.current.files[0];
     console.log(file);
 
@@ -143,11 +147,13 @@ const upload = (props: Props) => {
     }
 
     reader.onload = (readerEvent) => {
+      //@ts-ignore
       setVideo(readerEvent.target.result.toString());
     };
   };
 
   const handleThumbnailChange = () => {
+    //@ts-ignore
     const file = thumbnailRef.current.files[0];
     // Limit to either image/jpeg, image/jpg or image/png file
     const fileTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -169,6 +175,7 @@ const upload = (props: Props) => {
     }
 
     reader.onload = (readerEvent) => {
+      //@ts-ignore
       setThumbnail(readerEvent.target.result.toString());
     };
   };
@@ -236,6 +243,7 @@ const upload = (props: Props) => {
           <div className="h-48 border-2 relative overflow-hidden border-dashed text-slate-400 border-slate-600 my-4 rounded-xl aspect-video flex items-center justify-center">
             <input
               type="file"
+              //@ts-ignore
               ref={videoRef}
               onChange={handleVideoChange}
               hidden
@@ -244,6 +252,7 @@ const upload = (props: Props) => {
             />
             {!video && (
               <button
+                //@ts-ignore
                 onClick={() => videoRef.current.click()}
                 className="bg-slate-700 font-normal text-sm px-4 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-600 rounded-full"
               >
@@ -253,6 +262,7 @@ const upload = (props: Props) => {
             {video && <video src={video} controls className="h-full w-full " />}
             {video && (
               <button
+                //@ts-ignore
                 onClick={() => setVideo(null)}
                 className="absolute bg-red-500 text-white text-xs right-2 top-2 px-2"
               >
@@ -263,6 +273,7 @@ const upload = (props: Props) => {
           <div className="h-48 border-2 relative overflow-hidden border-dashed text-slate-400 border-slate-600 my-4 rounded-xl aspect-video flex items-center justify-center">
             <input
               type="file"
+              //@ts-ignore
               ref={thumbnailRef}
               onChange={handleThumbnailChange}
               hidden
@@ -271,6 +282,7 @@ const upload = (props: Props) => {
             />
             {!thumbnail && (
               <button
+                //@ts-ignore
                 onClick={() => thumbnailRef.current.click()}
                 className="bg-slate-700 font-normal text-sm px-4 py-2 text-slate-300 hover:text-slate-100 hover:bg-slate-600 rounded-full"
               >
@@ -286,6 +298,7 @@ const upload = (props: Props) => {
             )}
             {thumbnail && (
               <button
+                //@ts-ignore
                 onClick={() => setThumbnail(null)}
                 className="absolute bg-red-500 text-white text-xs right-2 top-2 px-2"
               >

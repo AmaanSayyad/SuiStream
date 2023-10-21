@@ -30,10 +30,14 @@ const ProfilePage = (props: Props) => {
     defaultTitle: string;     
     owner: string;         
     username: string;    
-    followers:number;   
+    followers:string[];   
     subscribersCount:number;
     pfp:"https://plus.unsplash.com/premium_photo-1676637000058-96549206fe71?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-    subscriptionCharge:number;
+    subscriptionCharge:BigInt;
+    bio:string;
+    id:number;
+    follows:string[];
+    isOnlySubscribers:boolean;
   }
   const profile: Profile = {
     streamId: "0",
@@ -41,10 +45,14 @@ const ProfilePage = (props: Props) => {
     defaultTitle: "Pro Coder",      
     owner: "0xb1f78bda569a408b6a7da7cc264d660cb106f4bd9f4a3390d6e3ebdee555b283",                  
     username: "Ankit"  ,
-    followers: 75,
+    followers: ["ankit","harsh","amaan"],
     subscribersCount: 42,
     pfp:"https://plus.unsplash.com/premium_photo-1676637000058-96549206fe71?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    subscriptionCharge:120,
+    subscriptionCharge:BigInt(9007199254740991),
+    bio:"Loves to code",
+    id:1,
+    follows:["ankit","harsh","amaan"],
+    isOnlySubscribers:true,
   };
   
 

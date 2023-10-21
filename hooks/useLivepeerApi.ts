@@ -33,14 +33,13 @@ export const PROFILES = [
 ];
 
 const useLivpeerApi = () => {
-
   const headers = {
     headers: {
       "content-type": "application/json",
-      authorization : `Bearer ${process.env.NEXT_PUBLIC_LIVEPEER_API_KEY}`,
+      authorization: `Bearer ${process.env.NEXT_PUBLIC_LIVEPEER_API_KEY}`,
     },
   };
-
+  //@ts-ignore
   const createStream = async (name: string): Promise<object> => {
     try {
       const url = "/api/stream";
@@ -50,46 +49,45 @@ const useLivpeerApi = () => {
       };
       return await axios.post(url, data, headers);
     } catch (err) {
-      console.error(err);    
+      console.error(err);
     }
   };
-
+  //@ts-ignore
   const fetchStreamStatus = async (streamId: string): Promise<object> => {
-    try{
+    try {
       const url = `/api/stream/${streamId}`;
       const response = await axios.get(url, headers);
       return response?.data;
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
   };
 
   const getSessionsList = async (parentId: string): Promise<any> => {
-    try{
-      let data =[];
-      const url = `/api/sessions/${parentId}`
-      const response = await axios.get(url,headers);
-      for(const key in response?.data){
+    try {
+      let data = [];
+      const url = `/api/sessions/${parentId}`;
+      const response = await axios.get(url, headers);
+      for (const key in response?.data) {
         data[key] = response?.data[key];
       }
       console.log(data);
       return data;
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
   };
 
   const getSession = async (id: string | string[]): Promise<any> => {
-    try{
+    try {
       const url = `/api/session/${id.toString()}`;
-      const response = await axios.get(url,headers);
+      const response = await axios.get(url, headers);
       return response?.data;
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
   };
 
-
-  return { createStream, fetchStreamStatus,getSession,getSessionsList };
+  return { createStream, fetchStreamStatus, getSession, getSessionsList };
 };
 export default useLivpeerApi;

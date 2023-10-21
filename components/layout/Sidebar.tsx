@@ -62,7 +62,7 @@ const Sidebar = (props: Props) => {
               {item.name}
             </div>
           ) : (
-            <Link href={item.href} key={item.href}>
+            <Link legacyBehavior href={item.href} key={item.href}>
               <a className="flex duration-200 font-medium tracking-wider group font-display ease-out items-center px-4 py-2  w-full text-slate-500   hover:bg-gray-800 hover:text-violet-100  gap-3">
                 <item.icon className="h-7 w-7 stroke-current group-hover:rotate-6 duration-200 ease-out" />
                 {item.name}
